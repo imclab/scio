@@ -36,7 +36,8 @@
 from decimal import Decimal
 import itertools
 from lxml import etree
-from urllib2 import urlopen, Request, HTTPError
+from six.moves.urllib.request import urlopen, Request
+from six.moves.urllib.error import HTTPError
 from threading import RLock
 from datetime import date, datetime, time
 from dateutil.parser import parse as parse_date
@@ -284,7 +285,7 @@ class MethodCall(object):
             response = self.send_request(request)
             log.debug("Response: %s", response)
             return response
-        except HTTPError, e:
+        except HTTPError as e:
             if e.code in (202, 204):
                 return self.client.handle_response(self.method, None)
             else:
